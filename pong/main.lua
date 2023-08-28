@@ -62,6 +62,9 @@ function love.load()
     player1Score = 0
     player2Score = 0
 
+    -- track serving player
+    servingPlayer = 1
+
     -- initialize our player paddles; make them global so that they can be
     -- detected by other functions and modules
     player1 = Paddle(10, 30, 5, 20)
@@ -81,7 +84,14 @@ end
     since the last frame, which LÖVE2D supplies us.
 ]]
 function love.update(dt)
-    if gameState == 'play' then
+    if gameState == 'serve' then 
+        ball.dy = math.random(-50, 50)
+        if servingPlayer == 1 then 
+            ball.dx = math.random(140, 200)
+        else 
+            ball.dx = -math.random(140, 200)
+        end 
+    elseif gameState == 'play' then
         -- detect collision of ball with paddles
         if ball:collides(player1) then 
             ball.dx = -ball.dx * 1.03
@@ -122,14 +132,14 @@ function love.update(dt)
         servingPlayer = 1
         player2Score = player2Score + 1
         ball:reset()
-        gameState = 'start'
+        gameState = 'serve'
     end
 
     if ball.x > VIRTUAL_WIDTH then 
         servingPlayer = 2
         player1Score = player1Score + 1
         ball:reset()
-        gameState = 'start'
+        gameState = 'serve'
     end
 
     -- player 1 movement
@@ -173,12 +183,9 @@ function love.keypressed(key)
     -- during play mode, the ball will move in a random direction
     elseif key == 'enter' or key == 'return' then
         if gameState == 'start' then
+            gameState = 'serve'
+        elseif gameState == 'serve' then
             gameState = 'play'
-        else
-            gameState = 'start'
-
-            -- ball's new reset method
-            ball:reset()
         end
     end
 end
@@ -195,19 +202,19 @@ function love.draw()
     -- to some versions of the original Pong
     love.graphics.clear(40/255, 45/255, 52/255, 255/255)
 
-    -- draw different things based on the state of the game
-    love.graphics.setFont(smallFont)
-
-    -- if gameState == 'start' then
-    --     love.graphics.printf('Hello Start State!', 0, 20, VIRTUAL_WIDTH, 'center')
-    -- else
-    --     love.graphics.printf('Hello Play State!', 0, 20, VIRTUAL_WIDTH, 'center')
-    -- end
-
-    -- draw score to the screen
-    love.graphics.setFont(scoreFont)
-    love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 50, VIRTUAL_HEIGHT / 3)
-    love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 30, VIRTUAL_HEIGHT / 3)
+    if gameState == 'start' then
+        love.graphics.setFont(smallFont)
+        love.graphics.printf('Welcome to Pong!', 0, 10, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Press Enter to begin!', 0, 20, VIRTUAL_WIDTH, 'center')
+        displayScore()
+    elseif gameState == 'serve' then 
+        love.graphics.setFont(smallFont)
+        love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve", 0, 10, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Press Enter to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
+        displayScore()
+    elseif gameState == 'play' then 
+        -- no messages to display 
+    end
 
     -- render paddles, now using their class's render method
     player1:render()
@@ -228,4 +235,11 @@ function displayFPS()
     love.graphics.setFont(smallFont)
     love.graphics.setColor(0, 255/255, 0, 255/255)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
+end
+
+function displayScore()
+    -- draw score to the screen
+    love.graphics.setFont(scoreFont)
+    love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 50, VIRTUAL_HEIGHT / 3)
+    love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 30, VIRTUAL_HEIGHT / 3)
 end
