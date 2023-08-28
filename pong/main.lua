@@ -104,7 +104,7 @@ function love.update(dt)
             end 
         end 
 
-        -- detect boundary collision on the screen
+        -- detect boundary collision on the top and bottom of the screen
         if ball.y <= 0 then
             ball.y = 0
             ball.dy = -ball.dy 
@@ -114,6 +114,22 @@ function love.update(dt)
             ball.y = VIRTUAL_HEIGHT - 4
             ball.dy = -ball.dy
         end 
+    end
+
+    -- if we reach the left or right edge,
+    -- update the score, change serving player, and reset ball
+    if ball.x < 0 then 
+        servingPlayer = 1
+        player2Score = player2Score + 1
+        ball:reset()
+        gameState = 'start'
+    end
+
+    if ball.x > VIRTUAL_WIDTH then 
+        servingPlayer = 2
+        player1Score = player1Score + 1
+        ball:reset()
+        gameState = 'start'
     end
 
     -- player 1 movement
@@ -182,11 +198,11 @@ function love.draw()
     -- draw different things based on the state of the game
     love.graphics.setFont(smallFont)
 
-    if gameState == 'start' then
-        love.graphics.printf('Hello Start State!', 0, 20, VIRTUAL_WIDTH, 'center')
-    else
-        love.graphics.printf('Hello Play State!', 0, 20, VIRTUAL_WIDTH, 'center')
-    end
+    -- if gameState == 'start' then
+    --     love.graphics.printf('Hello Start State!', 0, 20, VIRTUAL_WIDTH, 'center')
+    -- else
+    --     love.graphics.printf('Hello Play State!', 0, 20, VIRTUAL_WIDTH, 'center')
+    -- end
 
     -- draw score to the screen
     love.graphics.setFont(scoreFont)
