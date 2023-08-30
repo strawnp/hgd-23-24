@@ -87,6 +87,13 @@ function love.load()
 end
 
 --[[
+    Allow for resizing the screen
+]]
+function love.resize(w, h)
+    push:resize(w, h)
+end
+
+--[[
     Runs every frame, with "dt" passed in, our delta in seconds 
     since the last frame, which LÖVE2D supplies us.
 ]]
