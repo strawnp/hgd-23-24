@@ -52,7 +52,7 @@ function PlayState:update(dt)
     for k, pair in pairs(self.pipePairs) do
         -- score a point each time we pass a pair of pipes
         if not pair.scored then 
-            if pair.x + PIPE_WIDTH < self.bird.x then
+            if pair.x + (PIPE_WIDTH / 2) < self.bird.x then
                 self.score = self.score + 1
                 pair.scored = true 
             end
