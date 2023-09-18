@@ -11,7 +11,7 @@
 PipePair = Class{}
 
 -- size of the gap between pipes
-local GAP_HEIGHT = 60
+local GAP_HEIGHT = 100
 
 function PipePair:init(y)
     -- initialize pipes past the end of the screen
