@@ -41,6 +41,10 @@ function table.slice(tbl, first, last, step)
     return sliced
 end 
 
+function GenerateQuadsBricks(atlas)
+    return table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
+end
+
 function GenerateQuadsPaddles(atlas)
     local x = 0
     local y = 64
