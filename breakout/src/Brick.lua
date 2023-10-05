@@ -47,7 +47,7 @@ function Brick:init(x, y)
 
     self.psystem = love.graphics.newParticleSystem(gTextures['particle'], 64)
 
-    self.psystem:setParticleLifetime(0.75, 1.5)
+    self.psystem:setParticleLifetime(0.5, 1.25)
     self.psystem:setLinearAcceleration(-15, 0, 15, 80)
     self.psystem:setEmissionArea('normal', 10, 10)
 end 
@@ -61,11 +61,11 @@ function Brick:hit()
         paletteColors[self.color].r / 255,
         paletteColors[self.color].g / 255,
         paletteColors[self.color].b / 255,
-        255,
+        200,
         paletteColors[nextColor].r / 255,
         paletteColors[nextColor].g / 255,
         paletteColors[nextColor].b / 255,
-        128
+        0
     )
     self.psystem:emit(64)
 
