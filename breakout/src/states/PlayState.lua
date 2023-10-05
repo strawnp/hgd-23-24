@@ -55,7 +55,7 @@ function PlayState:update(dt)
         if brick.inPlay and self.ball:collides(brick) then 
             brick:hit()
 
-            self.score = self.score + 10
+            self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
             -- collision code for bricks
             -- check left edge if we are moving right
@@ -63,7 +63,7 @@ function PlayState:update(dt)
                 self.ball.dx = -self.ball.dx 
                 self.ball.x = brick.x - 8
             -- check right edge if we are moving left
-            elseif self.ball.x + 6 > brick.x + brick.width and self.ball.dx > 0 then 
+            elseif self.ball.x + 6 > brick.x + brick.width and self.ball.dx < 0 then 
                 self.ball.dx = -self.ball.dx
                 self.ball.x = brick.x + 32
             -- check top edge (always check)
