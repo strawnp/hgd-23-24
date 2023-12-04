@@ -29,6 +29,7 @@ CAMERA_SCROLL_SPEED = 40
 -- tile ID constants
 SKY = 2
 GROUND = 1
+SKY_HEIGHT = 6
 
 function love.load()
     math.randomseed(os.time())
@@ -45,7 +46,7 @@ function love.load()
 
     -- place character in middle of the screen, above the top ground tile
     characterX = VIRTUAL_WIDTH / 2 - (CHARACTER_WIDTH / 2)
-    characterY = ((7 - 1) * TILE_SIZE) - CHARACTER_HEIGHT
+    characterY = (SKY_HEIGHT * TILE_SIZE) - CHARACTER_HEIGHT
     
     mapWidth = 20
     mapHeight = 20
@@ -63,7 +64,7 @@ function love.load()
         for x = 1, mapWidth do
             -- sky and bricks; this ID directly maps to whatever quad we want to render
             table.insert(tiles[y], {
-                id = y < 7 and SKY or GROUND
+                id = y <= SKY_HEIGHT and SKY or GROUND
             })
         end
     end

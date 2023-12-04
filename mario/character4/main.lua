@@ -38,6 +38,7 @@ SKY = 2
 GROUND = 1
 
 function love.load()
+    love.graphics.setDefaultFilter('nearest', 'nearest')
     math.randomseed(os.time())
 
     tiles = {}

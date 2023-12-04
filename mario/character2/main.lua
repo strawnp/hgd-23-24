@@ -26,7 +26,7 @@ CHARACTER_HEIGHT = 20
 CHARACTER_MOVE_SPEED = 40
 
 -- camera scroll speed
-CAMERA_SCROLL_SPEED = 40
+CAMERA_SCROLL_SPEED = 60
 
 -- tile ID constants
 SKY = 2

@@ -34,7 +34,10 @@ CAMERA_SCROLL_SPEED = 40
 SKY = 2
 GROUND = 1
 
+enteredIdle = false
+
 function love.load()
+    love.graphics.setDefaultFilter('nearest', 'nearest')
     math.randomseed(os.time())
 
     tiles = {}
@@ -49,8 +52,8 @@ function love.load()
 
     -- two animations depending on whether we're moving
     idleAnimation = Animation {
-        frames = {1},
-        interval = 1
+        frames = {1, 5},
+        interval = 10
     }
     movingAnimation = Animation {
         frames = {10, 11},
@@ -113,14 +116,21 @@ function love.update(dt)
 
     -- update camera scroll based on user input
     if love.keyboard.isDown('left') then
+        enteredIdle = false
         characterX = characterX - CHARACTER_MOVE_SPEED * dt
         currentAnimation = movingAnimation
         direction = 'left'
     elseif love.keyboard.isDown('right') then
+        enteredIdle = false
         characterX = characterX + CHARACTER_MOVE_SPEED * dt
         currentAnimation = movingAnimation
         direction = 'right'
     else
+        if not enteredIdle then
+            enteredIdle = true
+            idleAnimation.timer = 0
+            idleAnimation.currentFrame = 1
+        end
         currentAnimation = idleAnimation
     end
 

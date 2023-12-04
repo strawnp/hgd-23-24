@@ -26,7 +26,7 @@ function love.load()
     birds = {}
 
     -- create 1000 random birds
-    for i = 1, 100 do
+    for i = 1, 1000000 do
         table.insert(birds, {
             -- all start at left side
             x = 0,
